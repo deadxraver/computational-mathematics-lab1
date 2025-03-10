@@ -6,7 +6,7 @@ def print_mtrx(mtrx: list[list[float]]) -> None:
 		print(mtrx[i])
 
 mtrx = [
-	[1, 2, 3, 4],
+	[100, 2, 3, 4],
 	[1, 10, 1, 8],
 	[27, 15, 1, 1]
 ]
@@ -18,9 +18,13 @@ if lib.to_diag(mtrx, x_order):
 	print(x_order)
 	print_mtrx(mtrx)
 	solution = []
-	print(f'took {lib.solve(mtrx, 0.1, solution)} iterations')
-	print(solution)
+	print(f'took {lib.solve(mtrx, 0.001, solution)} iterations')
+	print(f'solution by g-z: {solution}')
+	print(f'putting in first equation: {[sum([mtrx[j][i] * solution[i] for i in range(len(solution))]) for j in range(len(solution))]}')
+
 else:
 	print('failed to diagonalize')
+	norm = lib.find_norm(mtrx)
+	print(f'norm: {norm}')
 	print(x_order)
 	print_mtrx(mtrx)

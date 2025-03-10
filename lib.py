@@ -85,7 +85,9 @@ def solve(diagonalized_matrix: list[list[float]], eps: float, solution: list[flo
 			for j in range(i + 1, len(x_prev)):
 				second_sum += diagonalized_matrix[i][j] * x_prev[j] / diagonalized_matrix[i][i]
 			x_new[i] -= first_sum + second_sum
-		if iterations > 1000: exit(1)
+		if iterations > 1000:
+			print('too many iterations, probably no solution for system')
+			exit(1)
 		if max(vec_sub(x_new, x_prev)) < eps:
 			for i in range(len(x_new)):
 				solution.append(x_new[i])

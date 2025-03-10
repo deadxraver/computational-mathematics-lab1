@@ -2,6 +2,7 @@ import os
 
 import lib
 
+
 def read_from_console() -> None:
 	try:
 		n = int(input('Введите размерность матрицы: '))
@@ -21,12 +22,19 @@ def read_from_console() -> None:
 		if len(num_matrix[i]) != n + 1:
 			print("wrong length")
 			exit(1)
-
-	if lib.to_diag(num_matrix): print('successfully diagonalized matrix')
-	else: print('failed to diagonalize')
+	x_order = [''] * (n + 1)
+	for i in range(n):
+		x_order[i] = f'x{i + 1}'
+	x_order[n] = 'c'
+	if lib.to_diag(num_matrix, x_order):
+		print('successfully diagonalized matrix')
+	else:
+		print('failed to diagonalize')
 
 
 def read_from_file(filename: str) -> None:
 	if not os.path.exists(filename):
 		print("file not found")
 		exit(1)
+
+

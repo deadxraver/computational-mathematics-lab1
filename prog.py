@@ -1,6 +1,4 @@
-import os
-
-import lib
+import os, lib
 
 
 def read_from_console() -> None:
@@ -29,12 +27,24 @@ def read_from_console() -> None:
 	if lib.to_diag(num_matrix, x_order):
 		print('successfully diagonalized matrix')
 	else:
-		print('failed to diagonalize')
+		print('failed to diagonalize, calculating norm...')
+		norm = lib.find_norm(num_matrix)
+		print(f'norm: {norm}')
+		if norm > 1:
+			print('norm > 1 => cannot use gauss-seidel method')
+			exit(1)
+	solution = []
+	iterations = lib.solve(num_matrix, eps, solution)
+	print(f'success! took {iterations} iterations')
+	print('solution: {', end='')
+	for i in range(n):
+		print(f'{x_order[i]}={solution[i]}, ', end='')
+	print('}')
 
 
 def read_from_file(filename: str) -> None:
 	if not os.path.exists(filename):
 		print("file not found")
 		exit(1)
-
-
+	with open(filename, 'r') as f:
+		lines = f.readlines()

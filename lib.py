@@ -6,27 +6,31 @@ def validate_matrix(matrix: list[list[float]], n: int):
 	return len(matrix) == n and len(matrix[0]) == n + 1
 
 def find_norm(matrix: list[list[float]]) -> float:
-	new_matrix = copy.deepcopy(matrix)
-	i_range = [i for i in range(len(matrix))]
-	j_range = [i for i in range(len(matrix))]
-	i_indexes = []
-	j_indexes = []
-	for _ in range(len(matrix)):
-		i_max = 0
-		j_max = 0
-		for i in i_range:
-			for j in j_range:
-				if abs(matrix[i][j]) > abs(matrix[i_max][j_max]):
-					i_max = i
-					j_max = j
-		i_indexes.append(i_max)
-		j_indexes.append(j_max)
-		i_range.remove(i_max)
-		j_range.remove(j_max)
-	for index in range(len(i_indexes)):
-		for j in range(len(j_indexes)):
-			new_matrix[i_indexes[index]][j] /= matrix[i_indexes[index]][j_indexes[index]]
-	return max([sum([abs(c) for c in new_matrix[i][:-1]]) for i in range(len(matrix))])
+	res = []
+	for cond in range(2):
+		new_matrix = copy.deepcopy(matrix)
+		i_range = [i for i in range(len(matrix))]
+		j_range = [i for i in range(len(matrix))]
+		i_indexes = []
+		j_indexes = []
+		for _ in range(len(matrix)):
+			i_max = i_range[0]
+			j_max = j_range[0]
+			for i in i_range:
+				for j in j_range:
+					if cond and abs(matrix[i][j]) > abs(matrix[i_max][j_max]) or not cond and abs(matrix[i][j]) >= abs(matrix[i_max][j_max]):
+						i_max = i
+						j_max = j
+			i_indexes.append(i_max)
+			j_indexes.append(j_max)
+			i_range.remove(i_max)
+			j_range.remove(j_max)
+		for index in range(len(i_indexes)):
+			new_matrix[i_indexes[index]][j_indexes[index]] = 0
+			for j in range(len(j_indexes)):
+				new_matrix[i_indexes[index]][j] /= matrix[i_indexes[index]][j_indexes[index]]
+		res.append(max([sum([abs(c) for c in new_matrix[i][:-1]]) for i in range(len(matrix))]))
+	return min(res)
 
 def to_diag(matrix: list[list[float]], x_order: list[str]) -> bool:
 	def find_index(vector: list[float], el: float):
@@ -81,9 +85,8 @@ def solve(diagonalized_matrix: list[list[float]], eps: float, solution: list[flo
 			for j in range(i + 1, len(x_prev)):
 				second_sum += diagonalized_matrix[i][j] * x_prev[j] / diagonalized_matrix[i][i]
 			x_new[i] -= first_sum + second_sum
-		print(f'{iterations}: x(k)= {x_prev} x(k+1) = {x_new} ')
 		if iterations > 1000: exit(1)
-		if max(vec_sub(x_new, x_prev)) < eps:  # vec_abs -> max
+		if max(vec_sub(x_new, x_prev)) < eps:
 			for i in range(len(x_new)):
 				solution.append(x_new[i])
 			return iterations

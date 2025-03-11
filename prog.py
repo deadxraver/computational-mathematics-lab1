@@ -59,7 +59,7 @@ def read_from_file(filename: str) -> None:
 		print("file not found")
 		exit(-1)
 	with open(filename, 'r') as f:
-		lines = ''.join(f.readlines())
+		lines = ''.join(f.readlines()).replace('\t', ' ').replace('\n ', '\n').replace('  ', ' ')
 	lines = lines.upper()
 	if lines.find('N=') != -1:
 		n = int(lines[lines.find('N='):].replace('N=', '$').replace('\n', '$').split('$')[1])

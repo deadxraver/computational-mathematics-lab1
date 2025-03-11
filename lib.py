@@ -84,7 +84,9 @@ def solve(diagonalized_matrix: list[list[float]], eps: float, solution: list[flo
 		if iterations > 1000:
 			print('too many iterations, probably no solution for system')
 			exit(1)
-		if max(vec_sub(x_new, x_prev)) < eps:
+		approximation = vec_sub(x_new, x_prev)
+		if max(approximation) < eps:
+			print(f'approximation vector: {approximation}')
 			for i in range(len(x_new)):
 				solution.append(x_new[i])
 			return iterations

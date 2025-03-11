@@ -60,10 +60,6 @@ def switch_columns(matrix: list[list[float]], x_order: list[str], ind1: int, ind
 		matrix[i][ind1], matrix[i][ind2] = matrix[i][ind2], matrix[i][ind1]
 
 
-def vec_abs(vector: list[float]) -> float:
-	return math.sqrt(sum([x ** 2 for x in vector]))
-
-
 def vec_sub(vector1: list[float], vector2: list[float]) -> list[float]:
 	return [abs(vector1[i] - vector2[i]) for i in range(len(vector1))]
 

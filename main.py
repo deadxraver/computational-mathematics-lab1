@@ -9,7 +9,7 @@ epilog_msg = '''
 The Gauss-Seidel method is used
 '''
 parser = argparse.ArgumentParser(description=help_msg, epilog=epilog_msg)
-parser.add_argument('--filename', '-f', help='use file as a source for input data. `var=<data>` syntax is used')
+parser.add_argument('--filename', '-f', help='use file as a source for input data. `var=<data>` syntax is used, for matrix type `matrix:`, newline and rows line by line')
 
 args = parser.parse_args()
 

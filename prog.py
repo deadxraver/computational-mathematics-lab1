@@ -3,12 +3,12 @@ import os, lib
 
 def read_from_console() -> None:
 	try:
-		n = int(input('Введите размерность матрицы: '))
+		n = int(input('Enter matrix size: '))
 		if n > 20 or n < 1:
 			print("n must be between 1 and 20")
 			exit(-1)
 		num_matrix = [[]] * n
-		eps = float(input('Введите желаемую точность: '))
+		eps = float(input('Enter epsilon: '))
 	except ValueError:
 		print("not a number")
 		exit(1)
@@ -78,6 +78,9 @@ def read_from_file(filename: str) -> None:
 			spl_lines = lines.replace('MATRIX:', '$').split('$')[1].split('\n')[1:]
 			for i in range(n):
 				num_matrix[i] = [float(el) for el in spl_lines[i].split()]
+				if len(num_matrix[i]) != n + 1:
+					print(f"all lines must be n + 1 ({n + 1}) numbers long")
+					exit(-1)
 		except:
 			print('error in input file')
 			exit(-1)
